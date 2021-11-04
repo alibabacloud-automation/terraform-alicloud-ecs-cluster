@@ -19,7 +19,7 @@ variable "image_id" {
 }
 variable "image_name_regex" {
   description = "The ECS image's name regex used to fetch specified image."
-  default     = "^ubuntu_18.*_64"
+  default     = "^ubuntu"
 }
 
 # Instance typs variables
@@ -123,4 +123,9 @@ variable "system_category" {
 variable "system_size" {
   description = "The system disk size used to launch one or more ecs instances."
   default     = "40"
+}
+
+variable "nat_type" {
+  description = "The type of NAT gateway."
+  default     = "Enhanced"
 }

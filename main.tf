@@ -49,7 +49,7 @@ resource "alicloud_security_group" "default" {
 resource "alicloud_instance" "default" {
   count = var.cluster_size
 
-  image_id        = var.image_id == "" ? data.alicloud_images.default.images[0].id : var.image_id
+  image_id        = var.image_id == "" ? concat(data.alicloud_images.default.images[0].id, [""])[0] : var.image_id
   instance_type   = var.instance_type == "" ? data.alicloud_instance_types.default.instance_types[0].id : var.instance_type
   security_groups = length(var.security_group_ids) > 0 ? var.security_group_ids : [alicloud_security_group.default[0].id]
 
@@ -88,6 +88,8 @@ resource "alicloud_nat_gateway" "default" {
   vpc_id        = join("", alicloud_vpc.default.*.id)
   specification = "Small"
   name          = var.this_module_name
+  nat_type      = var.nat_type
+  vswitch_id = var.vswitch_id == "" ? alicloud_vswitch.default[0].id : var.vswitch_id
 }
 
 resource "alicloud_eip_association" "default" {
