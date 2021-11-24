@@ -1,9 +1,3 @@
-provider "alicloud" {
-  version              = ">=1.56.0"
-  region               = var.region != "" ? var.region : null
-  configuration_source = "terraform-alicloud-modules/ecs-cluster"
-}
-
 // Images data source for image_id
 data "alicloud_images" "default" {
   most_recent = true
