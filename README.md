@@ -1,7 +1,6 @@
 Terraform module which creates ECS cluster on Alibaba Cloud
 terraform-alicloud-ecs-cluster
 
-
 A terraform module to provide classic load balance architecture in alibaba cloud.
 
 ![image](https://github.com/terraform-alicloud-modules/terraform-alicloud-ecs-cluster/blob/master/architecture.png)
@@ -54,7 +53,6 @@ You can specify the following user-defined arguments:
 
 * vpc_id: A existing vpc ID
 * vswitch_id: A existing vpc ID
-
 
 **Note:** At present, not all availability zone supports launching RDS instance. If you want to using existing vswitches,
 you must ensure the specified vswitches can creating RDS instance.
@@ -132,7 +130,7 @@ More details see [How to use provider in the module](https://www.terraform.io/do
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.12.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
 | <a name="requirement_alicloud"></a> [alicloud](#requirement\_alicloud) | >= 1.56.0 |
 
 Authors
@@ -144,4 +142,3 @@ Reference
 * [Terraform-Provider-Alicloud Github](https://github.com/terraform-providers/terraform-provider-alicloud)
 * [Terraform-Provider-Alicloud Release](https://releases.hashicorp.com/terraform-provider-alicloud/)
 * [Terraform-Provider-Alicloud Docs](https://www.terraform.io/docs/providers/alicloud/)
-
