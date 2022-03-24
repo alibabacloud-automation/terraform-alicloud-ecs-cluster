@@ -39,4 +39,3 @@ output "this_access_internet_ip" {
 output "this_access_instance_ip" {
   value = alicloud_forward_entry.default.*.external_ip
 }
-
