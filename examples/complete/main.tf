@@ -9,8 +9,13 @@ data "alicloud_instance_types" "default" {
   availability_zone = data.alicloud_zones.default.zones.0.id
 }
 
+resource "random_integer" "default" {
+  min = 10000
+  max = 99999
+}
+
 resource "alicloud_ecs_key_pair" "default" {
-  key_pair_name = "key_pair_name_2022"
+  key_pair_name = "key_pair_name_${random_integer.default.result}"
 }
 
 module "example" {

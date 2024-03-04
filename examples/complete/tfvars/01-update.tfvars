@@ -4,7 +4,6 @@ this_module_name = "update-tf-testacc-module-name"
 # Ecs instance variables
 instance_name        = "update-tf-testacc-instance-name"
 internet_charge_type = "PayByTraffic"
-system_size          = 50
 password             = "YourPassword123!update"
 user_data            = "update-tf-user-data"
 period               = 2
