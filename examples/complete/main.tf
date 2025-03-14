@@ -6,7 +6,10 @@ data "alicloud_images" "default" {
 }
 
 data "alicloud_instance_types" "default" {
-  availability_zone = data.alicloud_zones.default.zones.0.id
+  availability_zone    = data.alicloud_zones.default.zones[0].id
+  cpu_core_count       = 2
+  memory_size          = 8
+  instance_type_family = "ecs.g6"
 }
 
 resource "random_integer" "default" {
@@ -34,13 +37,13 @@ module "example" {
   this_module_name  = var.this_module_name
   vpc_cidr          = "172.16.0.0/16"
   vswitch_cidr      = "172.16.0.0/21"
-  availability_zone = data.alicloud_zones.default.zones.0.id
+  availability_zone = data.alicloud_zones.default.zones[0].id
 
   #alicloud_instance
   cluster_size = 2
 
-  image_id             = data.alicloud_images.default.images.0.id
-  instance_type        = data.alicloud_instance_types.default.instance_types.0.id
+  image_id             = data.alicloud_images.default.images[0].id
+  instance_type        = data.alicloud_instance_types.default.instance_types[0].id
   instance_name        = var.instance_name
   internet_charge_type = var.internet_charge_type
   instance_charge_type = var.instance_charge_type

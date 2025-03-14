@@ -9,7 +9,7 @@ data "alicloud_images" "default" {
 data "alicloud_instance_types" "default" {
   cpu_core_count    = var.cpu_core_count
   memory_size       = var.memory_size
-  availability_zone = var.availability_zone != "" ? var.availability_zone : var.vswitch_id != "" ? data.alicloud_vswitches.default.vswitches.0.zone_id : data.alicloud_zones.default.ids.0
+  availability_zone = var.availability_zone != "" ? var.availability_zone : var.vswitch_id != "" ? data.alicloud_vswitches.default.vswitches[0].zone_id : data.alicloud_zones.default.ids[0]
 }
 
 # Zones data source for availability_zone
@@ -29,12 +29,12 @@ resource "alicloud_vpc" "default" {
 resource "alicloud_vswitch" "default" {
   vpc_id     = var.vpc_id == "" ? alicloud_vpc.default.id : var.vpc_id
   cidr_block = var.vswitch_cidr == "" ? var.vpc_cidr : var.vswitch_cidr
-  zone_id    = var.availability_zone != "" ? var.availability_zone : data.alicloud_zones.default.ids.0
+  zone_id    = var.availability_zone != "" ? var.availability_zone : data.alicloud_zones.default.ids[0]
 }
 
 resource "alicloud_security_group" "default" {
-  name   = var.this_module_name
-  vpc_id = var.vpc_id == "" ? alicloud_vpc.default.id : var.vpc_id
+  security_group_name = var.this_module_name
+  vpc_id              = var.vpc_id == "" ? alicloud_vpc.default.id : var.vpc_id
 }
 
 resource "alicloud_instance" "default" {
@@ -72,22 +72,22 @@ resource "alicloud_nat_gateway" "default" {
 
 resource "alicloud_eip_association" "default" {
   count         = 2
-  allocation_id = element(alicloud_eip.default.*.id, count.index)
+  allocation_id = element(alicloud_eip.default[*].id, count.index)
   instance_id   = alicloud_nat_gateway.default.id
 }
 
 resource "alicloud_snat_entry" "default" {
   snat_table_id     = split(",", alicloud_nat_gateway.default.snat_table_ids)[0]
   source_vswitch_id = alicloud_vswitch.default.id
-  snat_ip           = alicloud_eip.default.0.ip_address
+  snat_ip           = alicloud_eip.default[0].ip_address
 }
 
 resource "alicloud_forward_entry" "default" {
   forward_entry_name = var.this_module_name
   forward_table_id   = alicloud_nat_gateway.default.forward_table_ids
-  external_ip        = alicloud_eip.default.1.ip_address
+  external_ip        = alicloud_eip.default[1].ip_address
   external_port      = var.external_port
   ip_protocol        = var.ip_protocol
-  internal_ip        = alicloud_instance.default.0.private_ip
+  internal_ip        = alicloud_instance.default[0].private_ip
   internal_port      = var.internal_port
 }
