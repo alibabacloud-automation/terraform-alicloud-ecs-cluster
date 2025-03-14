@@ -1,8 +1,3 @@
-variable "region" {
-  description = "(Deprecated from version 1.1.0) The region used to launch this module resources."
-  type        = string
-  default     = ""
-}
 
 # Images data source for image_id
 variable "most_recent" {
