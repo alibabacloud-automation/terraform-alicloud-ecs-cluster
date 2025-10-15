@@ -1,15 +1,20 @@
-data "alicloud_zones" "default" {
+provider "alicloud" {
+  region = "cn-zhangjiakou"
 }
 
-data "alicloud_images" "default" {
-  name_regex = "ubuntu_18"
+data "alicloud_zones" "default" {
 }
 
 data "alicloud_instance_types" "default" {
   availability_zone    = data.alicloud_zones.default.zones[0].id
   cpu_core_count       = 2
   memory_size          = 8
-  instance_type_family = "ecs.g6"
+  instance_type_family = "ecs.g9i"
+}
+
+data "alicloud_images" "default" {
+  most_recent   = true
+  instance_type = data.alicloud_instance_types.default.instance_types[0].id
 }
 
 resource "random_integer" "default" {
@@ -47,7 +52,7 @@ module "example" {
   instance_name        = var.instance_name
   internet_charge_type = var.internet_charge_type
   instance_charge_type = var.instance_charge_type
-  system_category      = "cloud_efficiency"
+  system_category      = "cloud_essd"
   system_size          = var.system_size
   password             = var.password
   user_data            = var.user_data
